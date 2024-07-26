@@ -12,20 +12,16 @@ class PurchaseItem(object):
 
 
 def get_total_order_amount(order: List[PurchaseItem]):
-
     """
     The total cost of all the items ordered
     """
-
-    raise NotImplementedError(
-        "REMOVE the error and RETURN the total amount for the order"
-    )
+    total = sum(item.price for item in order)
+    return total
 
 
 def get_service_charge(order: List[PurchaseItem]):
-
     """
-    For every Rs. 100, the service charge amount should increase by 1% of order amount, upto a max of 20%
+    For every Rs. 100, the service charge amount should increase by 1% of order amount, up to a max of 20%
     Eg:
         Order Amount = 80, Service Charge = 0
         Order Amount = 150, Service Charge = 1.5
@@ -33,10 +29,10 @@ def get_service_charge(order: List[PurchaseItem]):
         Order Amount = 1500, Service Charge = 225
         Order Amount = 3000, Service Charge = 600
     """
-
-    raise NotImplementedError(
-        "REMOVE the error and RETURN service charge amount for the order"
-    )
+    total_amount = get_total_order_amount(order)
+    service_charge_percentage = min(total_amount // 100, 20)
+    service_charge = total_amount * (service_charge_percentage / 100)
+    return service_charge
 
 
 class Option(object):
@@ -47,9 +43,9 @@ class Option(object):
         if d:
             self.n = d.get("name")
             self.p = d.get("price")
-        if self.p == None:
+        if self.p is None:
             self.p = 0
-        if self.n == None:
+        if self.n is None:
             raise AttributeError
         self.pu = self.pu if self.pu else "Rs."
 
@@ -179,3 +175,4 @@ utils.clearConsoleUp(1)
 print()
 
 print_order(order)
+
